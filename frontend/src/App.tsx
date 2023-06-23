@@ -3,12 +3,10 @@ import axios from "axios";
 import React from "react";
 
 function App() {
+
     const [file, setFile] = React.useState<File | null>(null);
     const [imgPreview, setImgPreview] = React.useState<string | null>(null);
     const fileInputRef = React.useRef<HTMLInputElement>(null);
-
-    // image preview not quite working right now
-    // still wip
 
     return (
         <>
@@ -32,6 +30,7 @@ function App() {
                     alert(JSON.stringify(res.data, null, 2));
                 }
             }}>
+
                 <button type={"button"} onClick={() => {
                     fileInputRef.current?.click();
                 }}> UPLOAD IMAGE</button>
@@ -52,20 +51,11 @@ function App() {
 
                         // PREVIEW
 
-                        const reader = new FileReader();
+                        setImgPreview(URL.createObjectURL(e.target.files[0]))
 
-                        reader.addEventListener("load", () => {
-                            // convert image file to base64 string
-                            setImgPreview(reader.result as string);
-                        }, false);
-
-                        if (file) {
-                            reader.readAsDataURL(file);
-                        }
                     }}
                     accept={"image/png"}
                 />
-
                 <button>Submit</button>
             </form>
         </>
